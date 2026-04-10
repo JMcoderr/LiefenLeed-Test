@@ -47,4 +47,9 @@ return [
     'super' => [
         'seeder' => env('SUPER_ADMIN_EMPLOYEE_EMAIL') != '' ? env('SUPER_ADMIN_EMPLOYEE_EMAIL', 'jpieters@almere.nl') : 'jpieters@almere.nl'
     ],
+
+    'hrm' => [
+        'notification_email' => env('REQUEST_HRM_NOTIFICATION_EMAIL'),
+        'notification_name' => env('REQUEST_HRM_NOTIFICATION_NAME', 'HRM'),
+    ],
 ];

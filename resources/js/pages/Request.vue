@@ -28,6 +28,14 @@ const form = useForm({
     account_name: ''
 });
 
+function firstErrorMessage(err: Record<string, string | string[] | undefined>): string {
+    for (const value of Object.values(err)) {
+        if (Array.isArray(value) && value.length > 0) return value[0];
+        if (typeof value === 'string' && value.length > 0) return value;
+    }
+    return 'Aanvraag kon niet worden verzonden. Controleer de velden en probeer opnieuw.';
+}
+
 /**
  * IBAN
  */
@@ -148,7 +156,10 @@ function submitForm() {
             form.reset()
             // toast.success('Aanvraag succesvol ingediend');
         },
-        onError: (err) => console.error(err)
+        onError: (err) => {
+            console.error(err);
+            toast.error(firstErrorMessage(err as Record<string, string | string[] | undefined>));
+        }
     })
 
 }

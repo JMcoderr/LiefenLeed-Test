@@ -18,6 +18,7 @@ use App\Mail\RequestCreatedMail;
 use App\Mail\RequestAcceptedMail;
 use App\Mail\RequestRejectedMail;
 use App\Mail\RequestPaidMail;
+use App\Mail\RequestSubmittedToHrmMail;
 
 class RequestController extends Controller
 {
@@ -217,6 +218,13 @@ class RequestController extends Controller
                     $eventCost
                 )
             );
+
+        $hrmEmail = config('services.hrm.notification_email');
+        if (!empty($hrmEmail)) {
+            Mail::to($hrmEmail)->send(
+                new RequestSubmittedToHrmMail($requestCreate, $member, $eventCost)
+            );
+        }
 
         return redirect()->back()->with('toast',[
             'type' => 'success',
